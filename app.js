@@ -2,23 +2,27 @@ const garden = document.getElementById("garden");
 const notes = document.getElementById("notes");
 const encourageBtn = document.getElementById("encourageBtn");
 const card = document.querySelector(".card");
+const bgMusic = document.getElementById("bgMusic");
+const soundToggle = document.getElementById("soundToggle");
 
 const messages = [
   "One breath. One sip of water. One step. That is enough for now.",
   "You are allowed to rest and still be strong.",
   "Hard days do not erase how far you have already come.",
   "The sun still finds sunflowers, even after cloudy mornings.",
-  "Just a reminder, you’re pretty amazing.",
-  "You’ve got this, even if it doesn’t feel like it right now.",
+  "Just a reminder, you're pretty amazing.",
+  "You've got this, even if it doesn't feel like it right now.",
   "There is softness waiting for you on the other side of this moment.",
   "You are deeply worthy of gentleness, especially from yourself.",
   "I'll always be your go-to chai partner, no questions asked.",
-  "You deserve a bit of peace and a lot of smiles.",
+  "You deserve a bit of peace and a lot of smiles."
 ];
 
 const flowerLimit = 12;
 const noteLimit = 8;
 let introDismissed = false;
+let musicStarted = false;
+let musicEnabled = false;
 
 function sunflowerMarkup() {
   return `
@@ -93,6 +97,42 @@ function plantBrightSpot(xPercent = randomBetween(15, 85)) {
   showNote(xPercent);
 }
 
+function updateSoundToggle() {
+  if (!soundToggle) {
+    return;
+  }
+
+  soundToggle.textContent = `Music: ${musicEnabled ? "on" : "off"}`;
+  soundToggle.setAttribute("aria-pressed", String(musicEnabled));
+}
+
+async function enableMusic() {
+  if (!bgMusic) {
+    return;
+  }
+
+  bgMusic.volume = 0.08;
+
+  try {
+    await bgMusic.play();
+    musicStarted = true;
+    musicEnabled = true;
+  } catch (_error) {
+    musicStarted = false;
+    musicEnabled = false;
+  }
+
+  updateSoundToggle();
+}
+
+function maybeStartMusic() {
+  if (musicStarted || musicEnabled) {
+    return;
+  }
+
+  enableMusic();
+}
+
 function dismissIntroCard() {
   if (introDismissed || !card) {
     return;
@@ -105,13 +145,43 @@ function dismissIntroCard() {
   }, 340);
 }
 
+soundToggle?.addEventListener("click", async (event) => {
+  event.stopPropagation();
+
+  if (!bgMusic) {
+    return;
+  }
+
+  if (!musicStarted) {
+    await enableMusic();
+    return;
+  }
+
+  if (musicEnabled) {
+    bgMusic.pause();
+    musicEnabled = false;
+    updateSoundToggle();
+    return;
+  }
+
+  await enableMusic();
+});
+
 encourageBtn.addEventListener("click", () => {
+  maybeStartMusic();
   dismissIntroCard();
   plantBrightSpot();
 });
 
 document.addEventListener("click", (event) => {
+  if (event.target.closest(".sound-toggle")) {
+    return;
+  }
+
+  maybeStartMusic();
+
   if (event.target.closest(".card")) {
+    dismissIntroCard();
     return;
   }
 
@@ -120,5 +190,6 @@ document.addEventListener("click", (event) => {
 });
 
 window.addEventListener("load", () => {
+  updateSoundToggle();
   window.setTimeout(() => showNote(50), 1300);
 });
