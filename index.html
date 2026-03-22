@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunflower Cheer Up</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene">
+    <div class="sky-glow sky-glow--left"></div>
+    <div class="sky-glow sky-glow--right"></div>
+
+    <section class="card">
+      <p class="eyebrow">Hey Isya, lil smtg for ya huhu</p>
+      <p class="intro-line">
+        A small note before the flowers bloom: you do not have to carry everything at once.
+      </p>
+      <div class="actions">
+        <button id="encourageBtn" type="button">Plant another bright spot</button>
+        <span class="hint">Click anywhere.</span>
+      </div>
+    </section>
+
+    <section class="garden" id="garden" aria-label="Animated sunflower garden">
+      <div class="sparkles" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="notes" id="notes" aria-live="polite"></div>
+
+      <div class="sunflower sunflower--hero" style="--x: 50%; --delay: 0s;">
+        <div class="sunflower__stem"></div>
+        <div class="sunflower__leaf sunflower__leaf--left"></div>
+        <div class="sunflower__leaf sunflower__leaf--right"></div>
+        <div class="sunflower__bloom">
+          <span class="sunflower__petal" style="--i: 0;"></span>
+          <span class="sunflower__petal" style="--i: 1;"></span>
+          <span class="sunflower__petal" style="--i: 2;"></span>
+          <span class="sunflower__petal" style="--i: 3;"></span>
+          <span class="sunflower__petal" style="--i: 4;"></span>
+          <span class="sunflower__petal" style="--i: 5;"></span>
+          <span class="sunflower__petal" style="--i: 6;"></span>
+          <span class="sunflower__petal" style="--i: 7;"></span>
+          <span class="sunflower__petal" style="--i: 8;"></span>
+          <span class="sunflower__petal" style="--i: 9;"></span>
+          <span class="sunflower__petal" style="--i: 10;"></span>
+          <span class="sunflower__petal" style="--i: 11;"></span>
+          <div class="sunflower__core"></div>
+        </div>
+      </div>
+
+      <div class="ground"></div>
+      <div class="ground ground--front"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
